@@ -1,0 +1,2 @@
+add_subdirectory(KnightBoard)
+add_subdirectory(Square)
