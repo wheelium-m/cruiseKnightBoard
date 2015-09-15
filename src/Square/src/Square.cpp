@@ -7,7 +7,7 @@
 
 
 Square::Square(int row, int column, char symbol, KnightBoard *board)
-        :adjacents(4), containsKnight(false) {
+        :adjacents(4), containsKnight(false), backEdge(NULL), path_weight(INT_MAX) {
     this->position.first = row;
     this->position.second = column;
     this->symbol = symbol;
@@ -15,7 +15,7 @@ Square::Square(int row, int column, char symbol, KnightBoard *board)
 }
 
 Square::Square(pair<int, int> position, char symbol, KnightBoard *board)
-        :adjacents(4), containsKnight(false) {
+        :adjacents(4), containsKnight(false), backEdge(NULL), path_weight(INT_MAX) {
     this->position.first = position.first;
     this->position.second = position.second;
     this->symbol = symbol;
@@ -44,13 +44,17 @@ KnightBoard *Square::getBoard() {
     return this->board;
 }
 
-int Square::getGetConnectionWeight(Square *sq) {
+int Square::getGetConnectionLightestWeight(Square *sq) {
+    pair<Square *, unsigned int> min(NULL, INT_MAX);
     for (auto connection : connections) {
         if (connection.first == sq) {
-            return connection.second;
+            if(connection.second <= min.second)
+                min = connection;
         }
     }
-    return INT_MIN;
+    if(min.first != NULL)
+        return min.second;
+    return INT_MAX;
 }
 
 Square *Square::getUp() {
@@ -139,7 +143,7 @@ void Square::determineConnections() {
         vector<Square *> path = getDirectionalPath(move);
         if(path.size() == 0)
             continue;
-        int weight = this->board->getPathWeight(path);
+        int weight = this->board->symbolWeights[path[0]->symbol];
         this->connections.push_back(*(new pair<Square *, int>(path[3], weight)));
     }
 }

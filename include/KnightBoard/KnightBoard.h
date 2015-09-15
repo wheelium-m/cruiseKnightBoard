@@ -37,36 +37,49 @@ public:
      * Determines whether the given sequence corresponds to valid knight moves.
      */
     bool validSequence(vector<std::pair<unsigned int, unsigned int> > sequence, bool printBoards);
-
-    /**
-     * Gets the square at the given position.
-     */
-    Square *getSquare(unsigned int row, unsigned int col);
+    bool validSequence(vector<Square *> sequence, bool printBoards);
 
     /**
      * Gets the square at the given position.
      * position.first is the row, position.second is the column
      */
     Square *getSquare(pair<unsigned int, unsigned int> position);
+    Square *getSquare(unsigned int row, unsigned int col);
 
+    /**
+     * Sets the square at the supplied coordinates to the given square reference.
+     */
     void setSquare(unsigned int row, unsigned int col, Square * sq);
-    bool setSquare(pair<unsigned int, unsigned int>, Square * sq);
 
+    /**
+     * Prints the board, including its symbols and the location of the knight.
+     */
     void printBoard();
 
-    int getPathWeight(vector<Square *> path);
 
+    /**
+     * Given a pointer to one teleport square, return a pointer to the other.
+     * Assumes that there are only two.
+     */
     Square *getOtherTeleport(Square *sq);
 
+    /**
+     * Finds the shortest path between the two squares specified by the supplies coordinates.
+     */
+    vector<Square *> findShortestPath(pair<unsigned int, unsigned int> start, pair<unsigned int, unsigned int> end);
+    vector<Square *> findShortestPath(unsigned int s_row, unsigned int s_col, unsigned int e_row, unsigned int e_col);
+
+    /**
+     * A map of the weights for the given symbols.
+     */
     static map<char, int> symbolWeights;
 private:
+
 
     void init(char *board, unsigned int size);
     void constructEmptyBoard(unsigned int size);
     void setAdjacents();
     void determineAllConnections();
-
-
     pair<Square *, Square *> teleports;
     char **charBoard;
     vector<Square *> *board;

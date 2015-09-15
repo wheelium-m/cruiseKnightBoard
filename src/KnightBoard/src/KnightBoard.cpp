@@ -5,11 +5,14 @@
 #include <iostream>
 #include <stdexcept>
 #include <stdlib.h>
+#include <algorithm>
 #include <limits.h>
+#include <set>
 #include "KnightBoard/KnightBoard.h"
 
 using std::cout;
 using std::endl;
+using std::set;
 
 // Common code for constructors.
 void KnightBoard::init(char *_board, unsigned int size) {
@@ -47,6 +50,11 @@ bool KnightBoard::validSequence(vector<std::pair<unsigned int, unsigned int> > s
     for(auto step : sequence){
         squareSequence.push_back(getSquare(step));
     }
+    return validSequence(squareSequence, printBoards);
+}
+
+
+bool KnightBoard::validSequence(vector<Square *> squareSequence, bool printBoards) {
     Square *prev = NULL;
     for(auto square : squareSequence){
         if(!(NULL == prev)){
@@ -55,10 +63,12 @@ bool KnightBoard::validSequence(vector<std::pair<unsigned int, unsigned int> > s
             }
         }
         square->containsKnight = true;
-        this->printBoard();
+        if(printBoards)
+            this->printBoard();
         square->containsKnight = false;
         prev = square;
     }
+    return true;
 }
 
 Square *KnightBoard::getSquare(unsigned int row, unsigned int col) {
@@ -77,10 +87,6 @@ void KnightBoard::setSquare(unsigned int row, unsigned int col, Square *sq) {
         throw new std::out_of_range("Arguments to setSquare() were out of range");
     }
     this->board->at(size*row + col) = sq;
-}
-
-bool KnightBoard::setSquare(pair<unsigned int, unsigned int> position, Square *sq) {
-    this->setSquare(position.first, position.second, sq);
 }
 
 void KnightBoard::constructEmptyBoard(unsigned int size) {
@@ -108,9 +114,6 @@ void KnightBoard::printBoard() {
                 cout<<"K ";
             else
                 cout << this->getSquare(i, j)->symbol<<" ";
-                //cout << this->getSquare(i, j)->connections.size()<<" ";
-                //if(this->getSquare(i, j)->connections.size() < 10)
-                //    cout<<" ";
         }
         cout << endl;
     }
@@ -131,13 +134,93 @@ Square *KnightBoard::getOtherTeleport(Square *sq) {
         return teleports.first;
 }
 
-int KnightBoard::getPathWeight(vector<Square *> path) {
-    int weight = 0;
-    for(int i = 0; i < 3; i++){
-        weight += symbolWeights[path[i]->symbol];
+vector<Square *> KnightBoard::findShortestPath(pair<unsigned int, unsigned int> start,
+                                               pair<unsigned int, unsigned int> end) {
+    typedef pair< Square *, pair<Square *, int> *> future_connection_t;
+    typedef pair<Square *, int> connection_t;
+
+    Square *sqStart = this->getSquare(start);
+    Square *sqEnd = this->getSquare(end);
+
+    sqStart->path_weight=0;
+    //vector<Square *> *visited = new vector<Square *>();
+    //visited->push_back(sqStart);
+
+    set<Square *> *visited = new set<Square *>();
+    set<future_connection_t *> *unvisited = new set<future_connection_t *>();
+    visited->insert(sqStart);
+
+    for(int i = 0; i < sqStart->connections.size(); i++){
+        unvisited->insert(new future_connection_t(sqStart, &(sqStart->connections[i])));
     }
-    return weight;
+
+    // Perform dijkstra's algorithm iteratively.
+    while(unvisited->size() > 0){
+        // Get lightest connection
+        int min_weight = INT_MAX;
+        future_connection_t *lightest = NULL;
+
+        for(auto unvisit : *unvisited){
+            Square *internal = unvisit->first;
+            Square *external = unvisit->second->first;
+            int weight = unvisit->second->second;
+            int path_weight = unvisit->first->path_weight;
+
+            if(path_weight + weight < min_weight){
+                min_weight = path_weight + weight;
+                lightest = unvisit;
+            }
+        }
+        lightest->second->first->path_weight = lightest->first->path_weight + lightest->second->second;
+        lightest->second->first->backEdge = lightest->first;
+        visited->insert(lightest->second->first);
+
+        // Erase connections from unvisited for which a lighter path has been found
+        vector<future_connection_t *> toErase;
+        for(auto unvisit : *unvisited){
+            if(unvisit->second->first == lightest->second->first){
+                toErase.push_back(unvisit);
+            }
+        }
+        for(auto eraseMe : toErase){
+            unvisited->erase(eraseMe);
+        }
+
+        for(int i = 0; i < lightest->second->first->connections.size(); i++){
+            connection_t *conn = &lightest->second->first->connections[i];
+            if(visited->count(conn->first) == 0)
+                unvisited->insert(new future_connection_t(lightest->second->first, conn));
+        }
+
+        // Return the path after backtracking.
+        if(lightest->second->first == sqEnd){
+            vector<Square *> *lightestPath = new vector<Square *>();
+            lightestPath->push_back(lightest->second->first);
+            Square *_backEdge = lightest->first;
+            while(_backEdge != NULL){
+                lightestPath->insert(lightestPath->begin(), _backEdge);
+                _backEdge = _backEdge->backEdge;
+            }
+            delete visited;
+            delete unvisited;
+            return *lightestPath;
+        }
+    }
+
+
+
+
+    return std::vector<Square *>();
 }
+
+vector<Square *> KnightBoard::findShortestPath(unsigned int s_row, unsigned int s_col, unsigned int e_row,
+                                               unsigned int e_col) {
+    pair<unsigned int,unsigned int> start(s_row,s_col), end(e_row,e_col);
+    return findShortestPath(start, end);
+}
+
+
+
 
 map<char,int> KnightBoard::symbolWeights = {
         {'.', 1},

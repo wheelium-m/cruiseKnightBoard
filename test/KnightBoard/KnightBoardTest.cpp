@@ -81,6 +81,105 @@ namespace CruiseTests {
         seq1.push_back(*new pair<unsigned int, unsigned int>(5,3));
         return kn->validSequence(seq1, false);
     }
+
+    bool shortestPathTest(){
+        int boardSize = 7;
+        KnightBoard *kn = new KnightBoard(boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(6,6);
+        vector<Square *> path = kn->findShortestPath(begin, end);
+        return kn->validSequence(path, false);
+    }
+
+    bool shortestPathBarrierTest(){
+        char board[] = {
+                '.','.','.','B','.','.','.',
+                '.','.','.','B','.','.','.',
+                '.','.','.','B','.','.','.',
+                '.','.','.','B','.','.','.',
+                '.','.','.','B','.','.','.',
+                '.','.','.','B','.','.','.',
+                '.','.','.','.','.','.','.',
+        };
+        int boardSize = 7;
+        KnightBoard *kn = new KnightBoard(board, boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(0,6);
+        vector<Square *> path = kn->findShortestPath(begin, end);
+        return kn->validSequence(path, false);
+    }
+
+    bool shortestPathTeleportTest(){
+        char board[] = {
+                '.','.','.','.','.','.','.',
+                '.','.','.','.','.','.','.',
+                '.','T','.','.','.','.','.',
+                '.','.','.','.','.','.','.',
+                '.','.','.','.','.','T','.',
+                '.','.','.','.','.','.','.',
+                '.','.','.','.','.','.','.',
+        };
+        int boardSize = 7;
+        KnightBoard *kn = new KnightBoard(board, boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(6,6);
+        vector<Square *> path = kn->findShortestPath(begin, end);
+        return kn->validSequence(path, false);
+    }
+
+    bool shortestPathWaterTest(){
+        char board[] = {
+                '.','.','.','.','.','.','.',
+                '.','.','.','.','.','.','.',
+                '.','W','.','.','.','.','.',
+                'W','W','W','.','.','.','.',
+                'W','W','W','.','.','.','.',
+                'W','W','.','.','.','.','.',
+                '.','.','.','.','.','.','.',
+        };
+        int boardSize = 7;
+        KnightBoard *kn = new KnightBoard(board, boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(6,0);
+        vector<Square *> path = kn->findShortestPath(begin, end);
+        return kn->validSequence(path, false);
+    }
+
+    bool shortestPathLavaTest(){
+        char board[] = {
+                '.','.','.','.','.','.','.',
+                '.','.','L','.','.','.','.',
+                '.','W','.','.','.','.','.',
+                'W','W','W','L','.','.','.',
+                'W','W','W','.','.','.','.',
+                'W','W','.','.','.','.','.',
+                '.','.','.','.','.','.','.',
+        };
+        int boardSize = 7;
+        KnightBoard *kn = new KnightBoard(board, boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(6,0);
+        vector<Square *> path = kn->findShortestPath(begin, end);
+        return kn->validSequence(path, false);
+    }
+
+    bool shortestPathRocksTest(){
+        char board[] = {
+                '.','.','.','.','R','.','.',
+                '.','.','R','.','R','.','.',
+                '.','.','R','.','R','.','.',
+                '.','.','R','.','.','.','.',
+                '.','.','R','.','.','.','.',
+                '.','.','.','.','R','R','.',
+                '.','.','.','.','.','.','.',
+        };
+        int boardSize = 7;
+        KnightBoard *kn = new KnightBoard(board, boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(6,6);
+        vector<Square *> path = kn->findShortestPath(begin, end);
+        return kn->validSequence(path, false);
+    }
 }
 
 int main() {
@@ -88,4 +187,10 @@ int main() {
     assert(CruiseTests::connectionsTest() == 0);
     assert(CruiseTests::validSequenceTest() == true);
     assert(CruiseTests::invalidSequenceTest() == false);
+    assert(CruiseTests::shortestPathTest() == true);
+    assert(CruiseTests::shortestPathBarrierTest() == true);
+    assert(CruiseTests::shortestPathTeleportTest() == true);
+    assert(CruiseTests::shortestPathWaterTest() == true);
+    assert(CruiseTests::shortestPathLavaTest() == true);
+    assert(CruiseTests::shortestPathRocksTest() == true);
 }

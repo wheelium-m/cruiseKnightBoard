@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/include/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/KnightBoard/KnightBoard.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/Square/Square.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/fullKnightBoard.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/KnightBoard/CMakeLists.txt" isTestSource="false" />
@@ -37,8 +38,9 @@
         </SOURCES>
         <excluded>
           <root url="file://$MODULE_DIR$/include/Square/Square.h" />
-          <root url="file://$MODULE_DIR$/include/CMakeLists.txt" />
           <root url="file://$MODULE_DIR$/include/KnightBoard/KnightBoard.h" />
+          <root url="file://$MODULE_DIR$/include/CMakeLists.txt" />
+          <root url="file://$MODULE_DIR$/include/fullKnightBoard.h" />
         </excluded>
       </library>
     </orderEntry>

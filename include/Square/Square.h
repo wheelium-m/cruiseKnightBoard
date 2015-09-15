@@ -28,7 +28,7 @@ public:
     bool isConnected(Square *sq);
     bool isAdjacent(Square *sq);
 
-    int getGetConnectionWeight(Square *sq);
+    int getGetConnectionLightestWeight(Square *sq);
 
     KnightBoard * getBoard();
 
@@ -51,7 +51,8 @@ public:
     char symbol;
     bool containsKnight;
     vector<pair<Square *, int> > connections;
-
+    Square *backEdge;
+    int path_weight;
 private:
     vector<Square *> getDirectionalPath(vector<string> knightMove);
 
@@ -61,6 +62,7 @@ private:
     pair<int, int> position;
 
     static vector<vector<string> > moves;
+
 };
 
 
