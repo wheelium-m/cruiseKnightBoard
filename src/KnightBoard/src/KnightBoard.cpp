@@ -143,8 +143,6 @@ vector<Square *> KnightBoard::findShortestPath(pair<unsigned int, unsigned int> 
     Square *sqEnd = this->getSquare(end);
 
     sqStart->path_weight=0;
-    //vector<Square *> *visited = new vector<Square *>();
-    //visited->push_back(sqStart);
 
     set<Square *> *visited = new set<Square *>();
     set<future_connection_t *> *unvisited = new set<future_connection_t *>();
@@ -201,16 +199,63 @@ vector<Square *> KnightBoard::findShortestPath(pair<unsigned int, unsigned int> 
                 lightestPath->insert(lightestPath->begin(), _backEdge);
                 _backEdge = _backEdge->backEdge;
             }
+            for(auto visit : *visited){
+                visit -> backEdge = (NULL);
+                visit -> path_weight = (INT_MAX);
+            }
             delete visited;
             delete unvisited;
             return *lightestPath;
         }
     }
 
-
-
-
     return std::vector<Square *>();
+}
+
+
+vector<Square *> KnightBoard::findLongestPath(pair<unsigned int, unsigned int> start,
+                                              pair<unsigned int, unsigned int> end) {
+    typedef pair< Square *, pair<Square *, int> *> future_connection_t;
+    typedef pair<Square *, int> connection_t;
+
+    Square *sqStart = this->getSquare(start);
+    Square *sqEnd = this->getSquare(end);
+
+    sqStart->path_weight=0;
+    vector<Square *> *curPath = new vector<Square *>();
+    vector<Square *> *longestPath = new vector<Square *>();
+    curPath->push_back(sqStart);
+    int largestWeight = 0;
+    longestPathHelper(curPath, longestPath, sqStart, &largestWeight, sqEnd);
+    return *longestPath;
+}
+
+void KnightBoard::longestPathHelper(vector<Square *> *currentPath, vector<Square *> *longestPath, Square *head,
+                       int *largestWeight, Square *sqEnd){
+    if(head == sqEnd){
+        if(head->path_weight > *largestWeight){
+            longestPath->clear();
+            for(auto step : *currentPath){
+                longestPath->push_back(step);
+            }
+            *largestWeight=head->path_weight;
+        }
+        return;
+    }
+    for(auto conn : head->connections){
+        Square * newHead = conn.first;
+        bool skip_over = false;
+        for(auto step : *currentPath){
+            if(step == newHead)
+                skip_over = true;
+        }
+        if(skip_over)
+            continue;
+        currentPath->push_back(newHead);
+        newHead->path_weight = head->path_weight + conn.second;
+        longestPathHelper(currentPath, longestPath, newHead, largestWeight, sqEnd);
+        currentPath->erase(find(currentPath->begin(), currentPath->end(), newHead));
+    }
 }
 
 vector<Square *> KnightBoard::findShortestPath(unsigned int s_row, unsigned int s_col, unsigned int e_row,
@@ -219,8 +264,11 @@ vector<Square *> KnightBoard::findShortestPath(unsigned int s_row, unsigned int 
     return findShortestPath(start, end);
 }
 
-
-
+vector<Square *> KnightBoard::findLongestPath(unsigned int s_row, unsigned int s_col, unsigned int e_row,
+                                               unsigned int e_col) {
+    pair<unsigned int,unsigned int> start(s_row,s_col), end(e_row,e_col);
+    return findLongestPath(start, end);
+}
 
 map<char,int> KnightBoard::symbolWeights = {
         {'.', 1},

@@ -44,35 +44,6 @@ KnightBoard *Square::getBoard() {
     return this->board;
 }
 
-int Square::getGetConnectionLightestWeight(Square *sq) {
-    pair<Square *, unsigned int> min(NULL, INT_MAX);
-    for (auto connection : connections) {
-        if (connection.first == sq) {
-            if(connection.second <= min.second)
-                min = connection;
-        }
-    }
-    if(min.first != NULL)
-        return min.second;
-    return INT_MAX;
-}
-
-Square *Square::getUp() {
-    return this->adjacents[0];
-}
-
-Square *Square::getRight() {
-    return this->adjacents[1];
-}
-
-Square *Square::getDown() {
-    return this->adjacents[2];
-}
-
-Square *Square::getLeft() {
-    return this->adjacents[3];
-}
-
 Square *Square::setUp(Square *sq) {
     this->adjacents[0] = sq;
     this->adjacentMap["up"] = sq;

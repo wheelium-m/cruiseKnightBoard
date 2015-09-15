@@ -70,13 +70,22 @@ public:
     vector<Square *> findShortestPath(unsigned int s_row, unsigned int s_col, unsigned int e_row, unsigned int e_col);
 
     /**
+     * Finds the longest path between the two squares specified by the supplies coordinates.
+     * Eventually, anyway.
+     */
+    vector<Square *> findLongestPath(pair<unsigned int, unsigned int> start, pair<unsigned int, unsigned int> end);
+    vector<Square *> findLongestPath(unsigned int s_row, unsigned int s_col, unsigned int e_row, unsigned int e_col);
+
+
+    /**
      * A map of the weights for the given symbols.
      */
     static map<char, int> symbolWeights;
 private:
 
-
     void init(char *board, unsigned int size);
+    void longestPathHelper(vector<Square *> *currentPath, vector<Square *> *longestPath, Square *head,
+                           int *largestWeight, Square *sqEnd);
     void constructEmptyBoard(unsigned int size);
     void setAdjacents();
     void determineAllConnections();

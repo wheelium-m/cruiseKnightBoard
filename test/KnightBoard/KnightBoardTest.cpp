@@ -21,10 +21,10 @@ namespace CruiseTests {
                 Square * s = kn->getSquare(i, j);
                 vector<Square *> adjacents;
 
-                adjacents.push_back(s->getUp());
-                adjacents.push_back(s->getRight());
-                adjacents.push_back(s->getDown());
-                adjacents.push_back(s->getLeft());
+                adjacents.push_back(s->getAdjacent("up"));
+                adjacents.push_back(s->getAdjacent("right"));
+                adjacents.push_back(s->getAdjacent("down"));
+                adjacents.push_back(s->getAdjacent("left"));
 
                 for(auto adj : adjacents){
                     if(NULL != adj) {
@@ -89,6 +89,15 @@ namespace CruiseTests {
         pair<int,int> end(6,6);
         vector<Square *> path = kn->findShortestPath(begin, end);
         return kn->validSequence(path, false);
+    }
+
+    bool longestPathTest(){
+        int boardSize = 4;
+        KnightBoard *kn = new KnightBoard(boardSize);
+        pair<int,int> begin(0,0);
+        pair<int,int> end(3,3);
+        vector<Square *> path = kn->findLongestPath(begin, end);
+        return kn->validSequence(path, true);
     }
 
     bool shortestPathBarrierTest(){
@@ -188,6 +197,7 @@ int main() {
     assert(CruiseTests::validSequenceTest() == true);
     assert(CruiseTests::invalidSequenceTest() == false);
     assert(CruiseTests::shortestPathTest() == true);
+    assert(CruiseTests::longestPathTest() == true);
     assert(CruiseTests::shortestPathBarrierTest() == true);
     assert(CruiseTests::shortestPathTeleportTest() == true);
     assert(CruiseTests::shortestPathWaterTest() == true);
