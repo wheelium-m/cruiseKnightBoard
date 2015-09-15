@@ -97,7 +97,7 @@ namespace CruiseTests {
         pair<int,int> begin(0,0);
         pair<int,int> end(3,3);
         vector<Square *> path = kn->findLongestPath(begin, end);
-        return kn->validSequence(path, true);
+        return kn->validSequence(path, false);
     }
 
     bool shortestPathBarrierTest(){
