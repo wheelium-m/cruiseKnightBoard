@@ -7,10 +7,14 @@
 
 #include <utility>
 #include <vector>
+#include <map>
+#include <string>
 #include "KnightBoard/KnightBoard.h"
 
 using std::vector;
 using std::pair;
+using std::map;
+using std::string;
 
 // Needs to be forward declared due to cyclic dependency
 class KnightBoard;
@@ -28,6 +32,8 @@ public:
 
     KnightBoard * getBoard();
 
+    Square * getAdjacent(string direction);
+
     Square * getUp();
     Square * getRight();
     Square * getDown();
@@ -40,14 +46,21 @@ public:
 
     pair<int, int> getPosition();
 
+    void determineConnections();
+
     char symbol;
     bool containsKnight;
+    vector<pair<Square *, int> > connections;
 
 private:
+    vector<Square *> getDirectionalPath(vector<string> knightMove);
+
     KnightBoard *board;
     vector<Square *> adjacents;
-    vector<pair<Square *, int> > connections;
+    map<string, Square *> adjacentMap;
     pair<int, int> position;
+
+    static vector<vector<string> > moves;
 };
 
 

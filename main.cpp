@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <string>
 #include <KnightBoard/KnightBoard.h>
 
 using namespace std;

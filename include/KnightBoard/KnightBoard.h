@@ -6,11 +6,15 @@
 #define CRUISE_KNIGHTBOARD_H
 
 #include <vector>
+#include <map>
+#include <string>
 #include <utility>
 #include "Square/Square.h"
 
 using std::pair;
 using std::vector;
+using std::map;
+using std::string;
 
 // Needs to be forward declared due to cyclic dependency
 class Square;
@@ -29,8 +33,14 @@ public:
      */
     KnightBoard(char *board, unsigned int size);
 
+    /*
+     * Determines whether the given sequence corresponds to valid knight moves.
+     */
     bool validSequence(vector<std::pair<unsigned int, unsigned int> > sequence, bool printBoards);
 
+    /**
+     * Gets the square at the given position.
+     */
     Square *getSquare(unsigned int row, unsigned int col);
 
     /**
@@ -38,21 +48,30 @@ public:
      * position.first is the row, position.second is the column
      */
     Square *getSquare(pair<unsigned int, unsigned int> position);
+
     void setSquare(unsigned int row, unsigned int col, Square * sq);
     bool setSquare(pair<unsigned int, unsigned int>, Square * sq);
 
     void printBoard();
 
+    int getPathWeight(vector<Square *> path);
+
+    Square *getOtherTeleport(Square *sq);
+
+    static map<char, int> symbolWeights;
 private:
 
     void init(char *board, unsigned int size);
     void constructEmptyBoard(unsigned int size);
     void setAdjacents();
-    void determineConnections();
+    void determineAllConnections();
 
+
+    pair<Square *, Square *> teleports;
     char **charBoard;
-    vector<vector<Square *> > *board;
+    vector<Square *> *board;
     unsigned int size;
+
 };
 
 
