@@ -42,6 +42,7 @@ public:
     bool setSquare(pair<unsigned int, unsigned int>, Square * sq);
 
     void printBoard();
+
 private:
 
     void init(char *board, unsigned int size);

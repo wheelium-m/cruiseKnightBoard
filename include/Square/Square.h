@@ -21,7 +21,8 @@ public:
 
     Square(pair<int, int> position, char symbol, KnightBoard *board);
 
-    bool isConnected(Square *sq2);
+    bool isConnected(Square *sq);
+    bool isAdjacent(Square *sq);
 
     int getGetConnectionWeight(Square *sq);
 
@@ -37,8 +38,11 @@ public:
     Square * setDown(Square *sq);
     Square * setLeft(Square *sq);
 
+    pair<int, int> getPosition();
+
     char symbol;
     bool containsKnight;
+
 private:
     KnightBoard *board;
     vector<Square *> adjacents;

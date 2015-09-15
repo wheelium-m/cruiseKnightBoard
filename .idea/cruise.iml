@@ -12,7 +12,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/KnightBoard/src/KnightBoard.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Square/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Square/src/Square.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Square/src/Square.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/KnightBoard/KnightBoardTest.cpp" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

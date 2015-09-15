@@ -22,9 +22,18 @@ Square::Square(pair<int, int> position, char symbol, KnightBoard *board)
     this->board = board;
 }
 
-bool Square::isConnected(Square *sq2) {
+bool Square::isConnected(Square *sq) {
     for (auto connection : connections) {
-        if (connection.first == sq2) {
+        if (connection.first == sq) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Square::isAdjacent(Square *sq) {
+    for (auto adjacent : adjacents) {
+        if (adjacent == sq) {
             return true;
         }
     }
@@ -74,4 +83,8 @@ Square *Square::setDown(Square *sq) {
 
 Square *Square::setLeft(Square *sq) {
     this->adjacents[3] = sq;
+}
+
+pair<int, int> Square::getPosition() {
+    return position;
 }
