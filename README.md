@@ -3,7 +3,7 @@ A solution to Cruise's Kight's Board problem.
 
 ## Usage
 The KnightBoard object contains all the key datastructures and methods. To begin, you must supply the KnightBoard with the size
-of the board, an a char array containing the board information. If the board only consists of the '.' character, then only the
+of the board, and a char array containing the board information. If the board only consists of the '.' character, then only the
 board size needs to be supplied. For example:
 
 ``` c++
