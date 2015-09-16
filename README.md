@@ -73,8 +73,8 @@ The breakdown for my work hours is approximately as follows:
 * Getting cmake configuring ---------------- 1hr.
 * Implementing the graph/board ----------- 5hrs
 * Implementing dijkstra's -------------------- 3hrs
-* Implementing longest path --------------- 2 hrs
-* Adding tests/commenting ---------------- 1.5 hrs
+* Implementing longest path ---------------- 2 hrs
+* Adding tests/commenting ------------------ 1.5 hrs
 
 TOTAL                                     12.5 hrs
 
