@@ -6,7 +6,7 @@ The KnightBoard object contains all the key datastructures and methods. To begin
 of the board, an a char array containing the board information. If the board only consists of the '.' character, then only the
 board size needs to be supplied. For example:
 
-```c++
+``` c++
 char board[] = {
         '.','.','.','B','.','.','.',
         '.','.','.','B','.','.','.',
@@ -27,6 +27,32 @@ vector<Square *> path2 = kn->findShortestPath(begin, end);  // Path through the 
 
 kn->validSequence(path, false);
 kn->validSequence(path2, false);
+```
+
+## Compiling/Running
+To compile and run the project, first clone the repository somewhere on your filesystem. It requires CMake >= 2.8, and 
+gcc/g++ >= 2.8 (that I've tested with. It might work with 4.7).
+
+``` bash
+$ git clone https://github.com/wheelium-m/cruiseKnightBoard.git
+$ cd cruiseKnightBoard
+```
+
+Make a build folder, and generate the makefiles.
+
+``` bash
+$ mkdir build && cd build
+$ cmake .. && make
+```
+
+To run the main program, simply type
+``` bash
+$ ./cruise
+```
+
+To run the tests, type
+``` bash
+$ ctest
 ```
 
 ## Approach
