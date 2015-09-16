@@ -58,6 +58,11 @@ namespace CruiseTests {
         return 0;
     }
 
+    /////////////
+    // Level 1 //
+    /////////////
+    // An example of how a sequence of moves can be validated
+
     bool validSequenceTest(){
         int boardSize = 7;
         KnightBoard *kn = new KnightBoard(boardSize);
@@ -81,6 +86,11 @@ namespace CruiseTests {
         seq1.push_back(*new pair<unsigned int, unsigned int>(5,3));
         return kn->validSequence(seq1, false);
     }
+
+    /////////////////
+    // Level 2 & 3 //
+    /////////////////
+    // An example of how the shortest path can be found between two specified coordinates
 
     bool shortestPathTest(){
         int boardSize = 7;

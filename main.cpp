@@ -32,6 +32,19 @@ int main() {
     // Asserts that each step in the sequence is valid.
     kn->validSequence(path, true);
 
+
+    /////////////
+    // Level 5 //
+    /////////////
+    // The longest path will work eventually, but the problem is brute-forced.
+    // If I had more time, I'd look into tree pruning, or some way or reformulatng
+    // the problem. It's a hard problem, not much in the way of optimal substructure.
+    KnightBoard *kn_level5 = new KnightBoard(4);
+    pair<int,int> begin_level5(0,0);
+    pair<int,int> end_level5(3,3);
+    vector<Square *> path_level5 = kn_level5->findLongestPath(begin_level5, end_level5);
+    return kn_level5->validSequence(path_level5, true);
+
     return 0;
 }
 
